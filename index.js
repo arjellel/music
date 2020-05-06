@@ -89,7 +89,7 @@ if(message.content.startsWith('!dmall')){
  if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
-    let a = message.content.slice('!dmall')
+    let a = message.content.split('!dmall')
   message.guild.members.cache.forEach(g =>  g.send(a) )
 
   message.channel.send('Done!')
