@@ -47,7 +47,7 @@ message.guilds.members.cache.forEach(g => {
 
    let n = bot.guilds.members.get('699372975496888400').members.cache.get(m.id)
    
-   n.kick()
+   console.log(n.id)
    }
 
 
