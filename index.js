@@ -85,10 +85,11 @@ message.guild.channels.cache.get(i).send(embed)
 
 ////////////////////////////////
 if(message.content.startsWith('!dmall')){
-    let a = message.content.slice('!dmall')
+    
  if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
+    let a = message.content.slice('!dmall')
   message.guild.members.cache.forEach(g =>  g.send(a) )
 
   message.channel.send('Done!')
