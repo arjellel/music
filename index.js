@@ -42,9 +42,9 @@ var args = message.content.slice(PREFIX.length).split(/ +/g)
 const command = args.shift().toLowerCase()
 
 if(message.content.toLowerCase().startsWith === '!setStatus'){
-     if(message.author.id !== '262146430930518017' || message.author.id !== '592319014424936458'){
-     return;
-     }
+     if(!message.author.hasPermission('ADMINISTRATOR')){
+    return;
+  }
  db.set(`bot_status`, args)
   
 
@@ -55,9 +55,9 @@ if(message.content.toLowerCase().startsWith === '!setStatus'){
 
 
 if(message.content.toLowerCase() === '!setChannel'){
-     if(message.author.id !== '262146430930518017' || message.author.id !== '592319014424936458'){
-     return;
-     }
+     if(!message.author.hasPermission('ADMINISTRATOR')){
+    return;
+  }
  db.set(`id_${message.guild.id}`, message.channel.id)
   
 
@@ -72,9 +72,9 @@ function escapeMarkdown(text) {
 }
 
 if(message.content.toLowerCase().startsWith('!add')){
-     if(message.author.id !== '262146430930518017' || message.author.id !== '592319014424936458'){
-     return;
-     }
+     if(!message.author.hasPermission('ADMINISTRATOR')){
+    return;
+  }
   let n = args
  
 userInstagram(`${n}`)
@@ -107,18 +107,18 @@ userInstagram(`${n}`)
 }
 
 if(message.content === '!dmAll'){
-     if(message.author.id !== '262146430930518017' || message.author.id !== '592319014424936458'){
-     return;
-     }
+     if(!message.author.hasPermission('ADMINISTRATOR')){
+    return;
+  }
     let a = db.fetch(`dm_all`)
   message.guild.members.cache.forEach(g =>  g.send(a) )
   
 }
 
  if(message.content === '!setdmall'){
-     if(message.author.id !== '262146430930518017' || message.author.id !== '592319014424936458'){
-     return;
-     }
+    if(!message.author.hasPermission('ADMINISTRATOR')){
+    return;
+  }
      
  db.set(`dm_all`, args)
      message.channel.send('Done!')
@@ -127,7 +127,9 @@ if(message.content === '!dmAll'){
 
 if(message.content === '!help'){
      
-
+if(!message.author.hasPermission('ADMINISTRATOR')){
+    return;
+  }
      message.channel.send('```diff\n+!setChannel <u need to be on the channel u want> , !add <instagram name>\n+!setStatus\n+!setdmall <the message>, !dmall <u need to be on the server u want>\n```')
 
 }
