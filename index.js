@@ -81,23 +81,15 @@ message.guild.channels.cache.get(i).send(embed)
 
 .catch(console.error);
 }
-////////////////////////////////
-if(message.content === '!dmAll'){
-  if(!message.member.hasPermission('ADMINISTRATOR')){
- return;
-}
 
- let a = db.get(`dm_all`)
-message.guild.members.cache.forEach(g =>  g.send(a) )
 
-}
 ////////////////////////////////
 if(message.content.startsWith('!setdmall')){
  if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
-  
-db.set(`dm_all`, args)
+  message.guild.members.cache.forEach(g =>  g.send(args) )
+
   message.channel.send('Done!')
 
 }
