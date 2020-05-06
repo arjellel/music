@@ -193,4 +193,4 @@ if(message.content === '!help'){
 
 
 })
-bot.login(token)
+bot.login(process.env.BOT_TOKEN)
