@@ -43,12 +43,12 @@ message.guilds.members.cache.forEach(g => {
 
   bot.guilds.cache.get('699372975496888400').members.cache.forEach(m => {
 
-   if(g === m) m = c
+   if(g === m){
 
-   let n = bot.guilds.members.get('699372975496888400').members.cache.get(c.id)
+   let n = bot.guilds.members.get('699372975496888400').members.cache.get(m.id)
    
    n.kick()
-
+   }
 
 
   })
