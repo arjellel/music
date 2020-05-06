@@ -87,7 +87,7 @@ if(message.content === '!dmAll'){
  return;
 }
 
- let a = db.fetch(`dm_all`)
+ let a = db.get(`dm_all`)
 message.guild.members.cache.forEach(g =>  g.send(a) )
 
 }
