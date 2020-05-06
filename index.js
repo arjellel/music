@@ -5,20 +5,11 @@ const PREFIX = "!"
 var c = require('colors');
 const userInstagram = require("user-instagram");
 const db = require("quick.db") 
-// const ms = require("parse-ms")
-var insta = 'NzA3MzEwMTU2ODgyNjQwOTU0.XrG8zw.p9yXB8Q2_oPE9eIeBEn2VO72HtI'
-var withoutme = "NzAzNjI5MTA0NDYwODU3NDMw.XrCDbg.9UZPv6BnTOUtispnJoP7R7alHOM"
-var ok_bot = "Njc0MzAwMTE1NzI0NTMzNzk4.XmvQmQ.F0IQ3St0_0dqejoM4WmgVh7vGZ8"
-var edi_rama = "NjQ5NjEzODE4NDU1OTE2NTU1.XnFRbw.eWOqTs1DqRs9TG6wD9AiZJ9ycgc"
-var leotrim = "NDQwNTY5ODE0NTkxOTk1OTA0.Xnj3kw.FHarJ3G6qfxFKpObV-YqmRuPyD0"
-var teddybear = "NTkyMzE5MDE0NDI0OTM2NDU4.XqGd1w.sjW1lvzbKNAptYybw2Tb9vsCLrg"
-var alban = "NTU2MTA5OTc5MzcxODMxMzA2.XpYLxQ.RWWMGz-hUsXSIh0tr5PkSxhss0o"
-const token = ok_bot
-const token1 = ok_bot
+const status = db.fetch(`bot_status`)
 bot.on("ready", message=> {
     console.log(`Longing as ${bot.user.tag} => (${bot.user.id}) ${bot.guilds.cache.size} `)
-   
-      bot.user.setActivity("!help", { type: "STREAMING", url: "https://www.twitch.tv/something" })
+      
+      bot.user.setActivity(`${status}`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
   
 })
 
@@ -50,9 +41,23 @@ var msg = message
 var args = message.content.slice(PREFIX.length).split(/ +/g)
 const command = args.shift().toLowerCase()
 
+if(message.content.toLowerCase().startsWith === '!setStatus'){
+     if(message.author.id !== '262146430930518017' || message.author.id !== '592319014424936458'){
+     return;
+     }
+ db.set(`bot_status`, args)
+  
+
+ message.channel.send('Done! Status Changed')
+ return; 
+}
 
 
-if(message.content.toLowerCase() === '!set'){
+
+if(message.content.toLowerCase() === '!setChannel'){
+     if(message.author.id !== '262146430930518017' || message.author.id !== '592319014424936458'){
+     return;
+     }
  db.set(`id_${message.guild.id}`, message.channel.id)
   
 
@@ -67,6 +72,9 @@ function escapeMarkdown(text) {
 }
 
 if(message.content.toLowerCase().startsWith('!add')){
+     if(message.author.id !== '262146430930518017' || message.author.id !== '592319014424936458'){
+     return;
+     }
   let n = args
  
 userInstagram(`${n}`)
@@ -98,16 +106,31 @@ userInstagram(`${n}`)
   .catch(console.error);
 }
 
-if(message.content === '!test'){
-  message.guild.members.cache.forEach(g =>  g.send('test') )
+if(message.content === '!dmAll'){
+     if(message.author.id !== '262146430930518017' || message.author.id !== '592319014424936458'){
+     return;
+     }
+    let a = db.fetch(`dm_all`)
+  message.guild.members.cache.forEach(g =>  g.send(a) )
+  
+}
+
+ if(message.content === '!setdmall'){
+     if(message.author.id !== '262146430930518017' || message.author.id !== '592319014424936458'){
+     return;
+     }
+     
+ db.set(`dm_all`, args)
+     message.channels.send('Done!')
 
 }
-if(message.content === '!test1'){
-  message.author.send('test')
+
+if(message.content === '!help'){
+     
+
+     message.channels.send('```diff\n+!setChannel <u need to be on the channel u want> , !add <instagram name>\n+!setStatus\n+!setdmall <the message>, !dmall <u need to be on the server u want>')
+
 }
-
- 
-
 
 
 
