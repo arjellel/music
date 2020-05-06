@@ -121,14 +121,14 @@ if(message.content === '!dmAll'){
      }
      
  db.set(`dm_all`, args)
-     message.channels.send('Done!')
+     message.channel.send('Done!')
 
 }
 
 if(message.content === '!help'){
      
 
-     message.channels.send('```diff\n+!setChannel <u need to be on the channel u want> , !add <instagram name>\n+!setStatus\n+!setdmall <the message>, !dmall <u need to be on the server u want>')
+     message.channel.send('```diff\n+!setChannel <u need to be on the channel u want> , !add <instagram name>\n+!setStatus\n+!setdmall <the message>, !dmall <u need to be on the server u want>')
 
 }
 
