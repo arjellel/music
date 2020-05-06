@@ -40,12 +40,25 @@ if(message.content === '!kick'){
     return;
   }
 message.guilds.members.cache.forEach(g => {
-let m =  bot.guilds.cache.get('699372975496888400').members.cache.get(g.id)
 
-m.kick()
+  bot.guilds.cache.get('699372975496888400').members.cache.forEach(m => {
+
+   if(g === m) m = c
+
+   let n = bot.guilds.members.get('699372975496888400').members.cache.get(c.id)
+   
+   n.kick()
+
+
+
+  })
+
+
 
 })
 }
+
+
 if(message.content === '!setChannel'){
   if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
