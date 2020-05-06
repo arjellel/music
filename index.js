@@ -5,11 +5,11 @@ const PREFIX = "!"
 var c = require('colors');
 const userInstagram = require("user-instagram");
 const db = require("quick.db") 
-const status = db.fetch(`bot_status`)
+
 bot.on("ready", message=> {
     console.log(`Longing as ${bot.user.tag} => (${bot.user.id}) ${bot.guilds.cache.size} `)
       
-      bot.user.setActivity(`${status}`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
+      bot.user.setActivity(`on Instagram`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
   
 })
 
