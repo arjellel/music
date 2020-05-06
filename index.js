@@ -84,8 +84,8 @@ message.guild.channels.cache.get(i).send(embed)
 
 
 ////////////////////////////////
-if(message.content.startsWith('!setdmall')){
-    let a = message.content.slice(PREFIX.length)
+if(message.content.startsWith('!dmall')){
+    let a = message.content.slice('!dmall')
  if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
