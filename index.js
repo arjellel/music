@@ -114,5 +114,8 @@ if(!message.member.hasPermission('ADMINISTRATOR')){
   message.channel.send('```diff\n+!setChannel <u need to be on the channel u want> , !add <instagram name>\n+!setStatus\n+!setdmall <the message>, !dmall <u need to be on the server u want>\n```')
     
 }
+    if(message.content === '!members'){
+        messsage.channel.send(message.guild.memers.cache.size)
+    }
 })
 bot.login(process.env.BOT_TOKEN)
