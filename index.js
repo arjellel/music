@@ -118,7 +118,7 @@ if(!message.member.hasPermission('ADMINISTRATOR')){
     
 }
     if(message.content === '!members'){
-        message.channel.send(message.guild.memers.cache.size)
+        message.channel.send(message.guild.members.cache.size)
     }
 })
 bot.login(process.env.BOT_TOKEN)
