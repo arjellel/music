@@ -5,6 +5,7 @@ const PREFIX = "!"
 var c = require('colors');
 const userInstagram = require("user-instagram");
 const db = require("quick.db") 
+const ytScraper = require("yt-scraper")
 
 bot.on("ready", message=> {
     console.log(`Longing as ${bot.user.tag} => (${bot.user.id}) ${bot.guilds.cache.size} `)
@@ -38,7 +39,7 @@ const command = args.shift().toLowerCase()
 
 
 
-if(message.content === '!setChannel'){
+if(message.content === '!setChannelig'){
   if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
@@ -55,7 +56,7 @@ var escaped = unescaped.replace(/(\*|_|`|~|\\)/g, '\\$1'); // escape *, _, `, ~,
 return escaped;
 }
 ////////////////////////////////
-if(message.content.toLowerCase().startsWith('!add')){
+if(message.content.toLowerCase().startsWith('!addig')){
   if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
@@ -90,35 +91,59 @@ message.guild.channels.cache.get(i).send(embed)
 
 .catch(console.error);
 }
-
-
-////////////////////////////////
-if(message.content.startsWith('!dmall')){
-    
- if(!message.member.hasPermission('ADMINISTRATOR')){
+if(message.content === '!setChannelyt'){
+  if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
-      let a = message.content.split('!dmall')
-   message.guild.members.cache.forEach(g =>{
-      g.send(a)
-      .then(console.log(g.id))
-   } )
-   
-  message.channel.send('Done!')
+db.set(`yt_channel_${message.guild.id}`, message.channel.id)
+return message.channel.send('done');
+
+
 
 }
+
 ////////////////////////////////
+if(message.content.startsWith('!addyt')){
+  if(!message.member.hasPermission('ADMINISTRATOR')){
+    return;
+   }
+  
+ let channelUrl = `https://www.youtube.com/channel/${args[1]}`
+  ytScraper.channelInfo(channelUrl).then((response) => {
+    let tag = message.mentions.users.first()
+    let id = response.id
+    let subs = response.approx.subscribers
+    let viwes = response.approx.views	
+    let username = response.name
+    let joined = response.joined
+message.channel.send(args[1])
+    let embed = new  Discord.MessageEmbed()
+  
+.setDescription(`**Click [${escapeMarkdown(username)}](https://www.youtube.com/channel/${id}) for sub4sub**\n**${subs}** subcribers |  **${viwes} **views  |  **${tag}'s** channel  | \nCreated at ${joined}\n *If he does not subcribe <@717525159426392074> here.*\n*If you want ur channel to be shared here, check <#717462616716345446>*`)
+ .setFooter(`Added by ${message.author.tag}`, message.guild.iconURL())
+.setTimestamp()
+.setThumbnail(message.guild.iconURL())
+let i = db.get(`yt_channel_${message.guild.id}`)
+
+message.guild.channels.cache.get(i).send(embed)
+    })
+
+}
+
+
 
 if(message.content === '!help'){
   
 if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
-  message.channel.send('```diff\n+!setChannel <u need to be on the channel u want> , !add <instagram name>\n+!setStatus\n+!setdmall <the message>, !dmall <u need to be on the server u want>\n```')
+  message.channel.send('```diff\n+!setChannelig <u need to be on the channel u want> , !addig <instagram name>\n+!setChannelyt <u need to be on the channel u want>\n!addyt <youtube channel name>\n```')
     
 }
     if(message.content === '!members'){
         message.channel.send(message.guild.members.cache.size)
     }
 })
+
 bot.login(process.env.BOT_TOKEN)
+
