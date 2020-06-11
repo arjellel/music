@@ -86,11 +86,7 @@ let embed = new  Discord.MessageEmbed()
 
 message.guild.channels.cache.get(i).send(embed)
   
-}).catch(err => {
-        console.log('Error while doing !addig');
-        console.log(err);
-    });
-
+})
 
 if(message.content === '!setChannelyt'){
   if(!message.member.hasPermission('ADMINISTRATOR')){
@@ -101,11 +97,7 @@ return message.channel.send('done');
 
 
 
-}.catch(err => {
-        console.log('Error while doing !setChannelyt');
-        console.log(err);
-    });
-
+}
 
 ////////////////////////////////
 if(message.content.startsWith('!addyt')){
@@ -133,11 +125,7 @@ let i = db.get(`yt_channel_${message.guild.id}`)
 message.guild.channels.cache.get(i).send(embed)
     })
 
-}.catch(err => {
-        console.log('Error while doing !addyt');
-        console.log(err);
-    });
-
+}
 
 
 
