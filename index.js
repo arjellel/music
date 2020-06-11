@@ -28,7 +28,6 @@ bot.on('message', message=>{
     
     // const command = args.shift().toLowerCase()
 
-
 var msg = message
 
 var args = message.content.slice(PREFIX.length).split(/ +/g)
@@ -88,6 +87,9 @@ message.guild.channels.cache.get(i).send(embed)
   
 })
 
+
+.catch(console.error);
+}
 if(message.content === '!setChannelyt'){
   if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
@@ -113,10 +115,10 @@ if(message.content.startsWith('!addyt')){
     let viwes = response.approx.views	
     let username = response.name
     let joined = response.joined
-
+message.channel.send(args[1])
     let embed = new  Discord.MessageEmbed()
   
-.setDescription(`**Click [${escapeMarkdown(username)}](https://www.youtube.com/channel/${id}) for sub4sub**\n**${subs}** subcribers |  **${viwes} **views  |  **${tag}'s** channel  | \nCreated at ${joined}\n *If he does not subcribe <#717525159426392074> here.*\n*If you want ur channel to be shared here, check <#717462616716345446>*`)
+.setDescription(`**Click [${escapeMarkdown(username)}](https://www.youtube.com/channel/${id}) for sub4sub**\n**${subs}** subcribers |  **${viwes} **views  |  **${tag}'s** channel  | \nCreated at ${joined}\n *If he does not subcribe <@717525159426392074> here.*\n*If you want ur channel to be shared here, check <#717462616716345446>*`)
  .setFooter(`Added by ${message.author.tag}`, message.guild.iconURL())
 .setTimestamp()
 .setThumbnail(message.guild.iconURL())
