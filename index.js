@@ -10,8 +10,8 @@ const ytScraper = require("yt-scraper")
 bot.on("ready", message=> {
     console.log(`Longing as ${bot.user.tag} => (${bot.user.id}) ${bot.guilds.cache.size} `)
       
-     // bot.user.setActivity(`on Instagram`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
-  
+      bot.user.setActivity(`on Instagram`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
+     
 })
 bot.on("guildMemberAdd", (member) => {
 let a = bot.guilds.cache.get('699372975496888400').members.cache.get(member.id)
@@ -27,6 +27,7 @@ bot.on('message', message=>{
     
     
     // const command = args.shift().toLowerCase()
+
 
 var msg = message
 
@@ -136,13 +137,14 @@ if(message.content === '!help'){
 if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
-  message.channel.send('```diff\n!setChannelig <u need to be on the channel u want> , !addig <instagram name>\n!setChannelyt <u need to be on the channel u want>\n!addyt <youtube channel name>\n```')
+  message.channel.send('```diff\n+!setChannelig <u need to be on the channel u want> , !addig <instagram name>\n+!setChannelyt <u need to be on the channel u want>\n!addyt <youtube channel name>\n```')
     
 }
     if(message.content === '!members'){
         message.channel.send(message.guild.members.cache.size)
     }
 })
+
 
 bot.login(process.env.BOT_TOKEN)
 
