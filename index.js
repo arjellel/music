@@ -10,7 +10,7 @@ const ytScraper = require("yt-scraper")
 bot.on("ready", message=> {
     console.log(`Longing as ${bot.user.tag} => (${bot.user.id}) ${bot.guilds.cache.size} `)
       
-      bot.user.setActivity(`on Instagram`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
+     // bot.user.setActivity(`on Instagram`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
   
 })
 bot.on("guildMemberAdd", (member) => {
