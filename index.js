@@ -86,11 +86,12 @@ let embed = new  Discord.MessageEmbed()
 
 message.guild.channels.cache.get(i).send(embed)
   
-})
+}).catch(err => {
+        console.log('Error while doing !addig');
+        console.log(err);
+    });
 
 
-.catch(console.error);
-}
 if(message.content === '!setChannelyt'){
   if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
@@ -100,7 +101,11 @@ return message.channel.send('done');
 
 
 
-}
+}.catch(err => {
+        console.log('Error while doing !setChannelyt');
+        console.log(err);
+    });
+
 
 ////////////////////////////////
 if(message.content.startsWith('!addyt')){
@@ -128,7 +133,11 @@ let i = db.get(`yt_channel_${message.guild.id}`)
 message.guild.channels.cache.get(i).send(embed)
     })
 
-}
+}.catch(err => {
+        console.log('Error while doing !addyt');
+        console.log(err);
+    });
+
 
 
 
@@ -137,7 +146,7 @@ if(message.content === '!help'){
 if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
-  message.channel.send('```diff\n+!setChannelig <u need to be on the channel u want> , !addig <instagram name>\n+!setChannelyt <u need to be on the channel u want>\n!addyt <youtube channel name>\n```')
+  message.channel.send('```diff\n!setChannelig <u need to be on the channel u want> , !addig <instagram name>\n!setChannelyt <u need to be on the channel u want>\n!addyt <youtube channel name>\n```')
     
 }
     if(message.content === '!members'){
