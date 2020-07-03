@@ -13,11 +13,6 @@ bot.on("ready", message=> {
       bot.user.setActivity(`on Instagram`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
      
 })
-bot.on("guildMemberAdd", (member) => {
-let a = bot.guilds.cache.get('699372975496888400').members.cache.get(member.id)
-a.kick()
-console.log(a.tag)
-});
 
 
 
