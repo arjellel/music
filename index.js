@@ -47,10 +47,10 @@ let n = args[1]
 userInstagram(`${n}`)
 
 .then((response) => {
- 
- 
+ let tag = message.mentions.users.first().toString()
+ if(!tag) return message.channel.send('no user')
 let u = response.profilePicHD
-let tag = message.mentions.users.first().toString()
+
 let username = response.username
 let f = response.subscribtions
 let fo = response.subscribersCount
