@@ -7,7 +7,7 @@ const PREFIX = "!"
 const userInstagram = require("user-instagram");
 
 bot.on("ready", message=> {
-    console.log(`Longing as ${bot.user.tag} => (${bot.user.id}) ${bot.guilds.cache.size} `)
+    console.log(`Longing `)
       
       bot.user.setActivity(`with TeddyBear#7780 || dm for buissnes`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
     
