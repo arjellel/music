@@ -102,6 +102,6 @@ if(message.content.startsWith('!addyt')){
 }
 
 })
-bot.login("NzAzNjI5MTA0NDYwODU3NDMw.XrCDbg.9UZPv6BnTOUtispnJoP7R7alHOM")
-// bot.login(process.env.BOT_TOKEN)
+
+bot.login(process.env.BOT_TOKEN)
 
