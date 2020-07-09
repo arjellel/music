@@ -45,7 +45,7 @@ if(message.content.toLowerCase().startsWith('!addig')){
 let n = args[1].toString()
 let tag = message.mentions.users.first()
 console.log('yes1 '+args[1])
-userInstagram(n)
+userInstagram('music_reli')
 
 .then((response) => {
  console.log('yes2')
