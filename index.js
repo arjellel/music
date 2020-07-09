@@ -44,7 +44,7 @@ if(message.content.toLowerCase().startsWith('!addig')){
 }
 let n = args[1]
 let tag = message.mentions.users.first()
-console.log('yes1 '+args[1])
+
 
 
  
