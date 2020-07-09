@@ -71,7 +71,9 @@ message.guild.channels.cache.get('707704867476603010').send(embed)
 })
 
 
-.catch(console.error);
+.catch((err) => {
+console.log('errorjqj')
+});
 }
 
 
