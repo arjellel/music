@@ -42,40 +42,22 @@ if(message.content.toLowerCase().startsWith('!addig')){
   if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
-let n = args[1].toString()
+let n = args[1]
 let tag = message.mentions.users.first()
 console.log('yes1 '+args[1])
-userInstagram('music_reli')
 
-.then((response) => {
- console.log('yes2')
+
  
-let u = response.profilePicHD
-
-let username = response.username
-let f = response.subscribtions
-let fo = response.subscribersCount
-let p = response.postsCount
-let pu = response.isPrivate
-if(pu === false) pu = 'public'
-if(pu === true)  pu = "private"
+ 
 let embed = new  Discord.MessageEmbed()
   
-.setDescription(`**Click [${escapeMarkdown(username)}](https://www.instagram.com/${n}) for F4F**\n**${p}** posts | **${fo} **followers | **${f}**following \n **${tag}'s** account  | ${pu} account \n If you get unfollow by the user <#707277706928193552> here.\nIf you want ur ig be shared here, check <#707277706647044138>`)
+.setDescription(`**Click [${escapeMarkdown(n)}](https://www.instagram.com/${n}) for F4F**\n **${tag}'s** account  | <#707277706928193552> here with in 24h.\nIf you want ur ig be shared here, check <#707277706647044138>`)
 .setFooter(`Added by ${message.author.tag}`)
 .setTimestamp()
-.setThumbnail(u)
 
-
-message.guild.channels.cache.get('695003625038020619').send(embed)
+message.guild.channels.cache.get('707704867476603010').send(embed)
   
-})
-
-
-.catch(console.error);
 }
-
-
 ////////////////////////////////
 
 if(message.content.startsWith('!addyt')){
