@@ -42,13 +42,14 @@ if(message.content.toLowerCase().startsWith('!addig')){
   if(!message.member.hasPermission('ADMINISTRATOR')){
  return;
 }
-let n = args[1]
-
-userInstagram(`${n}`)
+let n = args[1].toString()
+let tag = message.mentions.users.first()
+console.log('yes1 '+args[1])
+userInstagram(n)
 
 .then((response) => {
- let tag = message.mentions.users.first().toString()
- if(!tag) return message.channel.send('no user')
+ console.log('yes2')
+ 
 let u = response.profilePicHD
 
 let username = response.username
@@ -60,20 +61,18 @@ if(pu === false) pu = 'public'
 if(pu === true)  pu = "private"
 let embed = new  Discord.MessageEmbed()
   
-.setDescription(`**Click [${escapeMarkdown(username)}](https://www.instagram.com/${n}) for F4F**\n**${p}** posts | **${fo} **followers | **${f}**following | **${tag}'s** account  | ${pu} \n If you get unfollow by the user <#707277706928193552> here.\nIf you want ur ig be shared here, check <#707277706647044138>`)
- .setFooter(`Added by ${message.author.tag}`)
+.setDescription(`**Click [${escapeMarkdown(username)}](https://www.instagram.com/${n}) for F4F**\n**${p}** posts | **${fo} **followers | **${f}**following \n **${tag}'s** account  | ${pu} account \n If you get unfollow by the user <#707277706928193552> here.\nIf you want ur ig be shared here, check <#707277706647044138>`)
+.setFooter(`Added by ${message.author.tag}`)
 .setTimestamp()
 .setThumbnail(u)
 
 
-message.guild.channels.cache.get('707704867476603010').send(embed)
+message.guild.channels.cache.get('695003625038020619').send(embed)
   
 })
 
 
-.catch((err) => {
-console.log('errorjqj')
-});
+.catch(console.error);
 }
 
 
