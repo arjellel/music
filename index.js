@@ -12,13 +12,7 @@ bot.on("ready", message=> {
       bot.user.setActivity(`with TeddyBear#7780 || dm for buissnes`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
     
 })
-bot.on("guildMemberRemove", member => {
- member.ban()
- .then(m => {
-   m.unban()
- })
-})
- 
+
 
 bot.on('message',async message=>{
 
