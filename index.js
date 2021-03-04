@@ -1,84 +1,148 @@
-//npm uninstall discord.js || npm i discord.js@11.5.1
 const Discord = require("discord.js");
-const nameyt = require("vid_data");
-const bot = new Discord.Client();
-const PREFIX = "!" 
 
-const userInstagram = require("user-instagram");
-
-bot.on("ready", message=> {
-    console.log(`Longing `)
-      
-      bot.user.setActivity(`with TeddyBear#7780 || dm for buissnes`, { type: "STREAMING", url: "https://www.twitch.tv/something" })
-    
-})
+const ytdl = require("ytdl-core");
+const queue = new Map();
 
 
-bot.on('message',async message=>{
-
-    
-    
-    // const command = args.shift().toLowerCase()
-
-
-var msg = message
-
-var args = message.content.slice(PREFIX.length).split(/ +/g)
-const command = args.shift().toLowerCase()
-
-function escapeMarkdown(text) {
-var unescaped = text.replace(/\\(\*|_|`|~|\\)/g, '$1'); // unescape any "backslashed" character
-var escaped = unescaped.replace(/(\*|_|`|~|\\)/g, '\\$1'); // escape *, _, `, ~, \
-return escaped;
+async function extractmessages(client){
+  let channel = client.guilds.cache.get("705431974051053578").channels.cache.get("817019889700438036")
+  let message = await channel.messages.fetch({limit:100})
+  .then(array => {
+    let all = ""
+    array.forEach(msg=>{      
+      channel.send(msg.content)
+      msg.delete({timeout: 10})
+      all = all+msg.content      
+    })
+    return all;   
+  });
+  return message;
 }
-////////////////////////////////
-if(message.content.toLowerCase().startsWith('!addig')){
-  if(!message.member.hasPermission('ADMINISTRATOR')){
- return;
-}
-let n = args[1]
-let tag = message.mentions.users.first()
 
+async function creatMap(client){
+  let get = await extractmessages(client)
+  let object = JSON.parse(`[${get.replace(",", "")}]`)
 
-
- 
- 
-let embed = new  Discord.MessageEmbed()
-  
-.setDescription(`**Click [${escapeMarkdown(n)}](https://www.instagram.com/${n}) for F4F**\n **${tag}'s** account  | <#707277706928193552> here with in 24h.\nIf you want ur ig be shared here, check <#707277706647044138>`)
-.setFooter(`Added by ${message.author.tag}`)
-.setTimestamp()
-
-message.guild.channels.cache.get('707704867476603010').send(embed)
-  
-}
-////////////////////////////////
-
-if(message.content.startsWith('!addyt')){
-    if(!message.member.hasPermission('ADMINISTRATOR')){
-   return;
-  }
-  let user = message.mentions.users.first()
-  if(user === undefined) return message.channel.send('specify a user <mention>')
-  
-  let url = args[1].toString()
-  if(url === null) return message.channel.send('specifu a channel id')
-  nameyt.get_channel_id_and_name(url)
-  .then(a => {
-    let id = a.channel_id
-    let name = a.channel_name
-    if(name === null)return message.channel.send('channel name not found')
-    let embed = new  Discord.MessageEmbed()
-   .setDescription(`**Click [${escapeMarkdown(name)}](https://www.youtube.com/channel/${id}) to sub4sub guaranted.**\n ${user}'s channel **|** <#717525159426392074> here in 24h. \n Check <#717462616716345446> to get ur yt channel here.`)
-   .setFooter(`Added by ${message.author.tag}`, message.guild.iconURL())
-   .setTimestamp()
-  
-   message.guild.channels.cache.get('717465707503419404').send(embed)
-  
+  object.forEach(object => {
+        
+        const queueContruct = {
+          clientID: object.client,  
+          guildID: object.guild,  
+          textChannelID:  object.textchannel,
+          voiceChannelID: object.voicechannel,
+          voiceChannel: null,
+          connection: null,
+          songs: object.songs,
+          volume: 5,
+          playing: true
+        };
+        console.log(queue)
+        queue.set(object.client, queueContruct);
+        console.log(queue)
   })
 }
 
-})
 
-bot.login(process.env.BOT_TOKEN)
 
+function startTrying(client){
+
+    const interval = setInterval(() => {
+        
+        if(!queue.get(client.user.id)){         
+            let err = {
+                clientTag: client.user.tag,
+                clientID: client.user.id,
+                message: `Cant find queue from get:${client.user.id}`,       
+            }
+            
+            console.log(`------------\nERROR\n${JSON.stringify(err)}\n------------`)
+        }else{
+            execute(client)
+            clearInterval(interval)
+        }        
+        // execute(queue.get(clientID), client)
+    }, 1000)
+    
+}
+
+
+async function execute(client) {
+    
+    let channelQueue = queue.get(client.user.id)
+    
+    const voiceChannel = client.guilds.cache.get(channelQueue.guildID).channels.cache.get(channelQueue.voiceChannelID);    
+    const permissions = voiceChannel.permissionsFor(client.user);
+    if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
+      return console.log(
+        "I need the permissions to join and speak in your voice channel! || "+client.user.tag
+      );
+    }  
+   
+      try {
+        console.log("trying to connect!")  
+        connecting(client, channelQueue)
+      } catch (err) {
+        console.log(err);        
+      }
+    
+  }
+  async function connecting(client, queue){
+    let voiceChannel = client.guilds.cache.get(queue.guildID).channels.cache.get(queue.voiceChannelID); 
+    try {
+        var connection = await voiceChannel.join();
+        queue.connection = connection;
+        console.log("connecting!")
+        play(client, queue);
+
+      } catch (err) {
+        console.log(err);        
+      }
+  }
+  function play(client, queue) {
+    
+    let i = 0
+    let  voiceChannel =  client.guilds.cache.get(queue.guildID).channels.cache.get(queue.voiceChannelID); 
+    if(i === queue.songs.length-1){
+        i = 0
+    }
+    let song = queue.songs[i]
+    
+    if (!song) {       
+        client.guilds.cache.get(queue.guildID).channels.cache.get(queue.textChannelID).send(`No songs on queue to play {clientTag: ${client.user.tag}, clientID: ${client.user.id}}`)
+        voiceChannel.leave()       
+    }
+  
+    const dispatcher = queue.connection
+     
+      .play(ytdl(song.url))
+      .on("finish", () => {
+          console.log("next music")
+        i++
+        connecting(client, queue);
+
+      })
+      .on("error", error => console.error(error));
+    dispatcher.setVolumeLogarithmic(queue.volume / 5);
+    client.guilds.cache.get(queue.guildID).channels.cache.get(queue.textChannelID).send(`Now playing: **${song.title}**`);
+    console.log("playing!")
+  }
+  
+const client = new Discord.Client();
+const client1 = new Discord.Client();
+
+client.once("ready", async () => {
+  console.log("Ready! "+ client.user.tag);
+    creatMap(client)  
+    startTrying(client)
+
+});
+client1.once("ready", () => {
+  console.log("Ready! "+ client1.user.tag);
+
+  startTrying(client1)
+
+});
+
+client.login(process.env.Client);
+
+client1.login(process.env.Client1);
