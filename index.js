@@ -1,7 +1,33 @@
 const Discord = require("discord.js");
-
+const prefix = "!"
 const ytdl = require("ytdl-core");
+
+const client = new Discord.Client();
+const client1 = new Discord.Client();
 const queue = new Map();
+
+client.on("message", message => {
+  if(message.content.startsWith("!restart")){
+    message.channel.send("restarting")
+    queue.clear()
+    creatMap(client)
+    startTrying(client)
+    startTrying(client1)
+  }
+
+});
+client.once("ready", async () => {
+  console.log("Ready! "+ client.user.tag);    
+    creatMap(client)  
+    startTrying(client)    
+});
+client1.once("ready", () => {
+  console.log("Ready! "+ client1.user.tag);
+  startTrying(client1)
+});
+
+
+
 
 
 async function extractmessages(client){
@@ -16,6 +42,7 @@ async function extractmessages(client){
     })
     return all;   
   });
+  console.log(message.slice(301))
   return message;
 }
 
@@ -34,12 +61,14 @@ async function creatMap(client){
           connection: null,
           songs: object.songs,
           volume: 5,
-          playing: true
+          playing: true,
+          i: 0
         };
         console.log(queue)
         queue.set(object.client, queueContruct);
         console.log(queue)
   })
+  
 }
 
 
@@ -80,68 +109,59 @@ async function execute(client) {
    
       try {
         console.log("trying to connect!")  
-        connecting(client, channelQueue)
+        connecting(client, channelQueue, 0)
       } catch (err) {
         console.log(err);        
       }
     
   }
-  async function connecting(client, queue){
+  async function connecting(client, queue, i){
     let voiceChannel = client.guilds.cache.get(queue.guildID).channels.cache.get(queue.voiceChannelID); 
     try {
         var connection = await voiceChannel.join();
         queue.connection = connection;
         console.log("connecting!")
-        play(client, queue);
+        play(client, queue, i);
 
       } catch (err) {
         console.log(err);        
       }
   }
-  function play(client, queue) {
+  function play(client, queue, i) { 
     
-    let i = 0
-    let  voiceChannel =  client.guilds.cache.get(queue.guildID).channels.cache.get(queue.voiceChannelID); 
-    if(i === queue.songs.length-1){
-        i = 0
-    }
     let song = queue.songs[i]
-    
+  
+    console.log(song)
     if (!song) {       
-        client.guilds.cache.get(queue.guildID).channels.cache.get(queue.textChannelID).send(`No songs on queue to play {clientTag: ${client.user.tag}, clientID: ${client.user.id}}`)
-        voiceChannel.leave()       
+        client.guilds.cache.get(queue.guildID).channels.cache.get(queue.textChannelID).send(`No songs on queue to play {clientTag: ${client.user.tag}, clientID: ${client.user.id}}`)        
     }
   
-    const dispatcher = queue.connection
-     
-      .play(ytdl(song.url))
+    const dispatcher = queue.connection     
+      .play(ytdl(song.url)) 
       .on("finish", () => {
           console.log("next music")
-        i++
-        connecting(client, queue);
-
+          console.log(i+1)
+          if(queue.songs.length === i-1){
+            connecting(client, queue, 0);
+          }else
+          {
+            connecting(client, queue, i+1);
+          }
+        
       })
-      .on("error", error => console.error(error));
+      .on("error", error => {
+        console.log(error)
+        
+        if(i === queue.songs.length-1){
+          connecting(client, queue, 0)
+        }else{
+          connecting(client, queue, i+1)
+        }
+      });
     dispatcher.setVolumeLogarithmic(queue.volume / 5);
     client.guilds.cache.get(queue.guildID).channels.cache.get(queue.textChannelID).send(`Now playing: **${song.title}**`);
     console.log("playing!")
   }
-  
-const client = new Discord.Client();
-const client1 = new Discord.Client();
-
-client.once("ready", async () => {
-  console.log("Ready! "+ client.user.tag);
-    creatMap(client)  
-    startTrying(client)
-
-});
-client1.once("ready", () => {
-  console.log("Ready! "+ client1.user.tag);
-
-  startTrying(client1)
-
-});
 
 client.login(process.env.Client);
 
