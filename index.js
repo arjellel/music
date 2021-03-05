@@ -130,7 +130,10 @@ async function execute(client) {
   function play(client, queue, i) { 
     
     let song = queue.songs[i]
-  
+    if(i === queue.songs.length-1){
+      console.log(0)
+      connecting(client, queue, 0)     
+    }
     console.log(song)
     if (!song) {       
         client.guilds.cache.get(queue.guildID).channels.cache.get(queue.textChannelID).send(`No songs on queue to play {clientTag: ${client.user.tag}, clientID: ${client.user.id}}`)        
