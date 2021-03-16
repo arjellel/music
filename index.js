@@ -127,7 +127,7 @@ async function execute(client) {
         console.log(err);        
       }
   }
-  function play(client, queue, i) { 
+  async function play(client, queue, i) { 
     
     let song = queue.songs[i]
     if(i === queue.songs.length-1){
