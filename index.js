@@ -132,7 +132,7 @@ async function execute(client) {
     let song = queue.songs[i]
     if(i === queue.songs.length-1){
       console.log(0)
-      client.leaveVoiceChannel(queue.voiceChannelID)
+      
       connecting(client, queue, 0)     
     }
     console.log(song)
