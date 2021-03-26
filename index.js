@@ -131,10 +131,7 @@ async function execute(client) {
     
     let song = queue.songs[i]
     if(i === queue.songs.length-1){
-      console.log(0)
-     var connection = await client.guilds.cache.get(queue.guildID).channels.cache.get(queue.voiceChannelID).leave()
-      client.guilds.cache.get(queue.guildID).channels.cache.get(queue.textChannelID).send("leaving")
-      console.log("Leaving")
+      console.log(0)     
       connecting(client, queue, 0)     
     }
     console.log(song)
